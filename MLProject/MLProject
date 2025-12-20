@@ -1,0 +1,5 @@
+name: churn_ci
+
+entry_points:
+  main:
+    command: "python modelling.py"
