@@ -1,4 +1,4 @@
-name: churn_ci
+name: churn_advanced
 
 entry_points:
   main:
