@@ -50,7 +50,10 @@ jobs:
         shell: bash -l {0}
         run: |
           cd MLProject
-          RUN_ID=$(ls -td mlruns/*/* | head -1)
+
+          EXP_ID=$(ls mlruns | head -n 1)
+          RUN_ID=$(ls mlruns/$EXP_ID | head -n 1)
+
           mlflow models build-docker \
-            -m "file:$RUN_ID/artifacts/model" \
+            -m "file:mlruns/$EXP_ID/$RUN_ID/artifacts/model" \
             -n ${{ secrets.DOCKER_USERNAME }}/churn-mlflow
