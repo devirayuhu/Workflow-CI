@@ -14,9 +14,6 @@ from sklearn.metrics import (
 
 def main(data_path):
     
-    # setup MLflow
-    mlflow.set_experiment("churn-ci")
-
     # membaca dataset hasil preprocessing
     df = pd.read_csv(data_path)
 
@@ -60,7 +57,6 @@ def main(data_path):
 
     # logging ke MLflow (file-based)
     mlflow.log_params(grid.best_params_)
-
     mlflow.log_metric("accuracy", acc)
     mlflow.log_metric("precision", prec)
     mlflow.log_metric("recall", rec)
