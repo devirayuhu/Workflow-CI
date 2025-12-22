@@ -51,5 +51,5 @@ jobs:
         run: |
           cd MLProject
           mlflow models build-docker \
-            -m runs:/0/model \
+            -m "file:mlruns" \
             -n ${{ secrets.DOCKER_USERNAME }}/churn-mlflow
