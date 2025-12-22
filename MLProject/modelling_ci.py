@@ -15,7 +15,6 @@ from sklearn.metrics import (
 def main(data_path):
     
     # setup MLflow
-    mlflow.set_tracking_uri("file:./mlruns")
     mlflow.set_experiment("churn-ci")
 
     # membaca dataset hasil preprocessing
@@ -75,7 +74,6 @@ def main(data_path):
         mlflow.sklearn.log_model(
             best_model,
             artifact_path="model",
-            registered_model_name="churn_model",
             input_example=X_test.iloc[:5]
         )
 
