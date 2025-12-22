@@ -59,23 +59,21 @@ def main(data_path):
     tn, fp, fn, tp = confusion_matrix(y_test, y_pred).ravel()
 
     # logging ke MLflow (file-based)
-    with mlflow.start_run():
+    mlflow.log_params(grid.best_params_)
 
-        mlflow.log_params(grid.best_params_)
+    mlflow.log_metric("accuracy", acc)
+    mlflow.log_metric("precision", prec)
+    mlflow.log_metric("recall", rec)
+    mlflow.log_metric("true_negative", tn)
+    mlflow.log_metric("false_positive", fp)
+    mlflow.log_metric("false_negative", fn)
+    mlflow.log_metric("true_positive", tp)
 
-        mlflow.log_metric("accuracy", acc)
-        mlflow.log_metric("precision", prec)
-        mlflow.log_metric("recall", rec)
-        mlflow.log_metric("true_negative", tn)
-        mlflow.log_metric("false_positive", fp)
-        mlflow.log_metric("false_negative", fn)
-        mlflow.log_metric("true_positive", tp)
-
-        mlflow.sklearn.log_model(
-            best_model,
-            artifact_path="model",
-            input_example=X_test.iloc[:5]
-        )
+    mlflow.sklearn.log_model(
+        best_model,
+        artifact_path="model",
+        input_example=X_test.iloc[:5]
+    )
 
     print("Training selesai")
     print("Accuracy:", acc)
