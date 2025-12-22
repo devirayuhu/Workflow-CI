@@ -14,18 +14,22 @@ from sklearn.metrics import (
 
 def main(data_path):
     
-    # membaca dataset hasil preprocessing
-    df = pd.read_csv(data_path)
+    mlflow.set_experiment("churn-ci")
+    
+    with mlflow.start_run():
+    
+        # membaca dataset hasil preprocessing
+        df = pd.read_csv(data_path)
 
-    X = df.drop("Churn", axis=1)
-    y = df["Churn"]
+        X = df.drop("Churn", axis=1)
+        y = df["Churn"]
 
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
-        test_size=0.2,
-        random_state=42,
-        stratify=y
-    )
+        X_train, X_test, y_train, y_test = train_test_split(
+           X, y,
+           test_size=0.2,
+           random_state=42,
+           stratify=y
+      )
 
     # grid search untuk tuning hyperparameter
     param_grid = {
