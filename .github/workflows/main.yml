@@ -1,0 +1,45 @@
+name: CI Training MLflow Churn
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  auto-train:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ambil source code dari repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # menyiapkan Python untuk environment CI
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # install conda environment sesuai MLProject
+      - name: Setup Conda Environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          environment-file: MLProject/conda.yaml
+          activate-environment: churn-env
+          auto-activate-base: false
+
+      # jalankan MLflow Project (auto training)
+      - name: Run MLflow Project
+        shell: bash -l {0}
+        run: |
+          cd MLProject
+          mlflow run . --env-manager=local
+
+      # menyimpan hasil training (mlruns) ke GitHub
+      - name: Commit MLflow Artifacts
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Save MLflow training result from CI" || echo "No changes"
+          git push
