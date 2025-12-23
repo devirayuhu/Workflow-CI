@@ -57,3 +57,4 @@ jobs:
           mlflow models build-docker \
             -m "file:mlruns/$EXP_ID/$RUN_ID/artifacts/model" \
             -n "${{ secrets.DOCKER_USERNAME }}/churn-mlflow"
+            --push
